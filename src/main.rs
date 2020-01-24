@@ -1,6 +1,6 @@
 fn is_prime(n: u128) -> bool {
     let mut i = 2;
-    while i < n {
+    while i < n/2+1 {
         if n % i == 0{
             return false;
         }
@@ -20,17 +20,16 @@ fn get_next_pime(mut n: u128) -> u128 {
 fn find_lg_prime_factor(n: u128) -> u128 {
     let mut dividend = n;
     let mut divisor = 2;
-    let mut found = false;
-    let mut lg_prime_factor = 0;
+    let lg_prime_factor;
     
-    while !found {
+    loop {
         if dividend % divisor == 0 && dividend != divisor {
             dividend = dividend/divisor;
         } else if dividend != divisor {
             divisor = get_next_pime(divisor);
         } else {
             lg_prime_factor = dividend;
-            found = true;
+            break;
         }
     }
     return lg_prime_factor;
@@ -65,4 +64,12 @@ mod tests {
         assert_eq!(7, get_next_pime(5), "Should return 7");
         assert_eq!(11, get_next_pime(7), "Should return 11");
     }
+
+    #[test]
+    fn test_find_lg_prime_factor() {
+        assert_eq!(29, find_lg_prime_factor(13195), "Should return 29");
+        assert_eq!(6857, find_lg_prime_factor(600851475143), "Should return 29");
+
+    }
+
 }
